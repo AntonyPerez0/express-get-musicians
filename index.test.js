@@ -54,8 +54,8 @@ describe("./musicians endpoint", () => {
     expect(response.body.instrument).toBe(updatedMusician.instrument);
   });
 
-  test("POST /musicians/:id should delete a musician", async () => {
-    const response = await request(app).post("/musicians/1");
+  test("DELETE /musicians/:id should delete a musician", async () => {
+    const response = await request(app).delete("/musicians/1");
     expect(response.statusCode).toBe(200);
     expect(response.text).toBe("Musician deleted");
   });

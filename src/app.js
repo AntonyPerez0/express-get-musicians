@@ -53,7 +53,7 @@ app.put("/musicians/:id", async (req, res) => {
   }
 });
 
-app.post("/musicians/:id", async (req, res) => {
+app.delete("/musicians/:id", async (req, res) => {
   try {
     const musician = await Musician.findByPk(req.params.id);
     if (musician) {
