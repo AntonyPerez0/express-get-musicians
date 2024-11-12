@@ -32,4 +32,31 @@ describe("./musicians endpoint", () => {
     expect(response.statusCode).toBe(404);
     expect(response.body).toHaveProperty("error");
   });
+  test("POST /musicians should create a new musician", async () => {
+    const newMusician = { name: "Ludwig van Beethoven", instrument: "Piano" };
+    const response = await request(app).post("/musicians").send(newMusician);
+    expect(response.statusCode).toBe(201);
+    expect(response.body).toHaveProperty("id");
+    expect(response.body.name).toBe(newMusician.name);
+    expect(response.body.instrument).toBe(newMusician.instrument);
+  });
+
+  test("PUT /musicians/:id should update an existing musician", async () => {
+    const updatedMusician = {
+      name: "Johann Sebastian Bach",
+      instrument: "Organ",
+    };
+    const response = await request(app)
+      .put("/musicians/1")
+      .send(updatedMusician);
+    expect(response.statusCode).toBe(200);
+    expect(response.body.name).toBe(updatedMusician.name);
+    expect(response.body.instrument).toBe(updatedMusician.instrument);
+  });
+
+  test("POST /musicians/:id should delete a musician", async () => {
+    const response = await request(app).post("/musicians/1");
+    expect(response.statusCode).toBe(200);
+    expect(response.text).toBe("Musician deleted");
+  });
 });
