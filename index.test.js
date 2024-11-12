@@ -20,4 +20,16 @@ describe("./musicians endpoint", () => {
     expect(responseData[0]).toHaveProperty("name");
     expect(responseData[0]).toHaveProperty("instrument");
   });
+  test("should return a musician by ID", async () => {
+    const response = await request(app).get("/musicians/1");
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toHaveProperty("name");
+    expect(response.body).toHaveProperty("instrument");
+  });
+
+  test("should return 404 if musician not found", async () => {
+    const response = await request(app).get("/musicians/999");
+    expect(response.statusCode).toBe(404);
+    expect(response.body).toHaveProperty("error");
+  });
 });
