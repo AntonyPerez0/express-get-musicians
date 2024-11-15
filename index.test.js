@@ -59,6 +59,21 @@ describe("./musicians endpoint", () => {
     expect(response.statusCode).toBe(200);
     expect(response.text).toBe("Musician deleted");
   });
+  test("POST /musicians without name should return validation error", async () => {
+    const newMusician = { instrument: "Guitar" };
+    const response = await request(app).post("/musicians").send(newMusician);
+    expect(response.statusCode).toBe(400);
+    expect(response.body).toHaveProperty("error");
+    expect(Array.isArray(response.body.error)).toBe(true);
+  });
+
+  test("POST /musicians without instrument should return validation error", async () => {
+    const newMusician = { name: "Jane Doe" };
+    const response = await request(app).post("/musicians").send(newMusician);
+    expect(response.statusCode).toBe(400);
+    expect(response.body).toHaveProperty("error");
+    expect(Array.isArray(response.body.error)).toBe(true);
+  });
 });
 
 afterAll(async () => {
